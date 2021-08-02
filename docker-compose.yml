@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+  app:
+    restart: always
+    container_name: application
+    build: .
+    ports:
+      - '8080:8080'
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/messenger
+      SPRING_DATASOURCE_USERNAME: messenger-app
+      SPRING_DATASOURCE_PASSWORD: very-strong-password
+      SECURITY_ALLOWED_ORIGINS: http://localhost:3000
+      SECURITY_ADMIN_EMAIL: admin@default.com
+      SECURITY_ADMIN_PASSWORD: default
+      SECURITY_JWT_SECRET: BB1E2A381A8B816772894F9329FB1BB1
+      SECURITY_JWT_EXPIRATION: 86400
+  mysql:
+    restart: always
+    container_name: database
+    image: 'mysql/mysql-server'
+    environment:
+      MYSQL_USER: messenger-app
+      MYSQL_PASSWORD: very-strong-password
+      MYSQL_DATABASE: messenger
+      TZ: Europe/Moscow
+    healthcheck:
+      test: mysqladmin ping -u $MYSQL_USER --password $MYSQL_PASSWORD
+      interval: 30s
+      timeout: 5s
+      retries: 10

@@ -1,0 +1,8 @@
+rootProject.name = 'messenger'
+include 'boot'
+include 'core'
+include 'persistence'
+include 'application'
+include 'infrastructure'
+include 'api'
+

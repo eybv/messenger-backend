@@ -1,0 +1,21 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.4'
+}
+
+bootJar {
+    enabled = true
+    layered {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':persistence')
+    implementation project(':application')
+    implementation project(':infrastructure')
+    implementation project(':api')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
